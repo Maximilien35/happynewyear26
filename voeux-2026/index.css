@@ -1,0 +1,459 @@
+/* ===== VARIABLES ET RESET ===== */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: rgba(0, 0, 0, 0.05);
+    --primary-color: rgba(255, 255, 255, 0.95);
+    --secondary-color: rgba(255, 255, 255, 0.7);
+    --accent-color: rgba(255, 215, 0, 0.8);
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+/* ===== FOND ET ANIMATIONS ===== */
+body {
+    background: linear-gradient(135deg, 
+        #0f0c29 0%,
+        #1a1a3a 50%,
+        #24243e 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Effet de particules subtiles */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 55%),
+        radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.02) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ===== HERO SECTION ÉPURÉE ===== */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    animation: pulse 15s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+}
+
+/* ===== AVATAR MINIMALISTE ===== */
+.avatar-container {
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: center;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.rounded-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--glass-border);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: var(--transition);
+}
+
+.rounded-circle:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(255, 255, 255, 0.08);
+}
+
+/* ===== TYPOGRAPHIE ÉPURÉE ===== */
+.display-3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.text-warning {
+    color: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-color), rgba(255, 215, 0, 0.6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+/* ===== CARTE GLASS ÉLÉGANTE ===== */
+.cardi {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    
+    padding: 2.5rem 2rem;
+    margin: 2rem 0;
+    
+    box-shadow: 
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 8px 32px rgba(31, 38, 135, 0.1);
+    
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+/* Effet de lumière subtile */
+.cardi::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+}
+
+/* Message dynamique */
+#dynamic-message {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    transition: var(--transition);
+}
+
+/* Animation de texte */
+.animate__fadeIn {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== BOUTON MODERNE ===== */
+.btn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    
+    padding: 1rem 2.5rem;
+    margin-top: 1.5rem;
+    
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    transition: left 0.6s ease;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 24px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* ===== ANIMATIONS ADDITIONNELLES ===== */
+.animate__animated {
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
+}
+
+.animate__bounceIn {
+    animation-name: bounceInSoft;
+}
+
+@keyframes bounceInSoft {
+    from, 20%, 40%, 60%, 80%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(0.9, 0.9, 0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: scale3d(1.02, 1.02, 1.02);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+/* ===== EFFETS DE LUMIÈRE DYNAMIQUES ===== */
+.light-effect {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.light-effect-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+    top: 10%;
+    right: 10%;
+    animation: moveLight1 20s ease-in-out infinite alternate;
+}
+
+.light-effect-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(100, 100, 255, 0.03) 0%, transparent 70%);
+    bottom: 10%;
+    left: 10%;
+    animation: moveLight2 25s ease-in-out infinite alternate;
+}
+
+@keyframes moveLight1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, 50px) scale(1.2); }
+}
+
+@keyframes moveLight2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, -50px) scale(1.1); }
+}
+
+/* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .container {
+        max-width: 90%;
+        padding: 0.5rem;
+    }
+    
+    .display-3 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+    
+    .cardi {
+        padding: 2rem 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 20px;
+    }
+    
+    #dynamic-message {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .rounded-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .btn {
+        padding: 0.875rem 2rem;
+        font-size: 0.95rem;
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .hero-section {
+        padding: 0.5rem;
+    }
+    
+    .container {
+        max-width: 95%;
+    }
+    
+    .display-3 {
+        font-size: 1.75rem;
+    }
+    
+    .cardi {
+        padding: 1.5rem 1.25rem;
+        margin: 1.25rem 0;
+        border-radius: 18px;
+    }
+    
+    #dynamic-message {
+        font-size: 0.95rem;
+    }
+    
+    .rounded-circle {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Support pour les appareils avec notch */
+@supports (padding: max(0px)) {
+    .hero-section {
+        padding-top: max(1rem, env(safe-area-inset-top));
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+}
+
+/* ===== PERFORMANCES MOBILE ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== SCROLLBAR ÉPURÉE ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ===== TOUCH FEEDBACK SUR MOBILE ===== */
+@media (hover: none) and (pointer: coarse) {
+    .btn:active {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(0.98);
+    }
+    
+    .rounded-circle:active {
+        transform: scale(0.95);
+    }
+}
