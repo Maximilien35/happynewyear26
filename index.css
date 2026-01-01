@@ -60,7 +60,7 @@ body::before {
     position: relative;
     overflow: hidden;
 }
-
+/*hero-section*/
 .hero-section::after {
     content: '';
     position: absolute;
