@@ -37,7 +37,7 @@ Maximilien. 💥❤️`,
     `💖 À MA BELLE ÂME AMICALE, MON CONFI-DENT(E) ! 💖
 
 Le tournant de l'année est le moment parfait pour te dire des choses importantes. Alors installe-toi confortablement, voici mon cadeau en mots pour toi. 🎀
-Cette année qui s'achève, tu l'as traversée avec tes forces, tes doutes, tes victoires et tes apprentissages. Et à chaque étape, j'ai été admiratif(ve) de ta personne. Ta résilience, ta sensibilité, ta façon unique de voir le monde m'inspirent. 🌟 Merci d'avoir partagé avec moi tes rêves et tes vulnérabilités. C'est un honbre immense.
+Cette année qui s'achève, tu l'as traversée avec tes forces, tes doutes, tes victoires et tes apprentissages. Et à chaque étape, j'ai été admiratif(ve) de ta personne. Ta résilience, ta sensibilité, ta façon unique de voir le monde m'inspirent. 🌟 Merci d'avoir partagé avec moi tes rêves et tes vulnérabilités. C'est un honneur immense.
 Pour la nouvelle année, je t'envoie un paquet cadeau de souhaits ! 🎁
 Je te souhaite d'abord de la douceur. De la douceur envers toi-même, pour accueillir tes émotions sans jugement. De la douceur dans le monde qui t'entoure. 🕊️
 Je te souhaite du courage aussi ! Le courage de dire "non" quand il le faut, le courage de dire "oui" aux opportunités qui te font envie, le courage d'être pleinement toi-même, sans filtres. 🦁✨
@@ -140,32 +140,171 @@ Je te souhaite de te sentir "chez toi" dans ta propre peau, dans tes choix, dans
 Et je te souhaite de savoir que, dans la maison de mon cœur, il y a toujours une chambre d'amis spéciale, réservée pour toi, à vie. 🛌
 Bonne année mon port d'attache ! Que 2024 soit l'année où tu construis et embellis la vie dont tu as toujours rêvé. 🏡💫
 
-Maximilien  présent dans les bons moments comme dans les tempêtes. 🤗❤️`
+Maximilien présent dans les bons moments comme dans les tempêtes. 🤗❤️`
 ];
 
+// Variables globales pour suivre l'état
+let currentWishIndex = -1;
+let usedWishes = new Set();
 
 function initYearProject() {
     // 1. Récupérer le nom de l'utilisateur dans l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name') || "Invité";
     
+    // Nettoyer et décoder le nom
+    const decodedName = decodeURIComponent(name).trim();
+    
     // 2. Mettre à jour le nom et l'avatar
-    document.getElementById('user-name').innerText = name;
-    document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${name}&background=random&size=128`;
+    document.getElementById('user-name').innerText = decodedName;
+    
+    // Créer un avatar avec une couleur basée sur le nom pour la consistance
+    const avatarColor = getColorFromName(decodedName);
+    document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(decodedName)}&background=${avatarColor}&color=fff&size=128&bold=true`;
     
     // 3. Afficher un vœu aléatoire
     generateNewWish();
+    
+    // 4. Initialiser AOS
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+    }
+}
+
+function getColorFromName(name) {
+    // Génère une couleur hexadécimale basée sur le nom
+    const colors = [
+        '4A90E2', // Bleu
+        '50C878', // Vert
+        'FF6B6B', // Rouge
+        'FFA500', // Orange
+        '9B59B6', // Violet
+        '1ABC9C', // Turquoise
+        'E74C3C', // Rouge foncé
+        '3498DB', // Bleu ciel
+        '2ECC71', // Vert émeraude
+        'E67E22'  // Orange carotte
+    ];
+    
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
 }
 
 function generateNewWish() {
     const textElement = document.getElementById('dynamic-message');
-    const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
     
-    // Ajout d'une petite animation de transition
-    textElement.classList.remove('animate__fadeIn');
-    void textElement.offsetWidth; // Reset animation
-    textElement.innerText = randomWish;
-    textElement.classList.add('animate__animated', 'animate__fadeIn');
+    // Si on a affiché tous les vœux, réinitialiser
+    if (usedWishes.size >= wishes.length) {
+        usedWishes.clear();
+    }
+    
+    // Choisir un vœu qui n'a pas encore été affiché
+    let newIndex;
+    do {
+        newIndex = Math.floor(Math.random() * wishes.length);
+    } while (usedWishes.has(newIndex) && usedWishes.size < wishes.length);
+    
+    usedWishes.add(newIndex);
+    currentWishIndex = newIndex;
+    
+    // Ajouter une animation de sortie
+    textElement.classList.add('animate__animated', 'animate__fadeOut');
+    
+    // Attendre la fin de l'animation de sortie
+    setTimeout(() => {
+        // Mettre à jour le texte avec préservation des sauts de ligne
+        textElement.innerHTML = wishes[newIndex]
+            .replace(/\n/g, '<br>')
+            .replace(/([🎆📖💖🎯☀️🎉✨🤝💫🌟🎊🗣️💥🤗🎈💌🕊️🎯✈️📚🚀🌈☀️🎉🎁💥❤️💖🎀🕊️🦁✨☕🎶🌷👫🌈💫⏳🚀📖😎⚡🔍🍀😴🛋️🧠🌎💪🛫🌞🎇🌈💌✨🎨🌧️🌻🤝🌿🛁💆‍♀️💎🖼️☀️🛡️⚓💥🏹🎯👏🏠❤️🏖️🎮📈📖🕊️✨🤝🎶🎷🎉🎵🎼🥳🎻👨‍👩‍👧‍👦💑🎤👨‍🎤🌍📻🎧🎹🧭🗺️🏮🌄🧭🌟🎒👟🛏️🏞️🧑🤝🧑💰📚🚗✈️🌅🤜🤛🏠🎊❤️🔥🗝️🧱☀️👨‍👩‍👧‍👦🔥📚🍳🌷🛋️🛌🏡💫🤗])/g, '<span class="emoji">$1</span>');
+        
+        // Retirer l'ancienne animation
+        textElement.classList.remove('animate__fadeOut');
+        
+        // Forcer un reflow pour réinitialiser l'animation
+        void textElement.offsetWidth;
+        
+        // Ajouter l'animation d'entrée
+        textElement.classList.add('animate__animated', 'animate__fadeIn');
+        
+        // Configurer AOS pour re-animer l'élément
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+        
+        // Ajouter un effet de confetti
+        createConfettiEffect();
+        
+    }, 300);
 }
 
+function createConfettiEffect() {
+    const confettiCount = 15;
+    const container = document.querySelector('.hero-section');
+    
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.innerHTML = ['🎉', '✨', '🎊', '🌟', '💖', '🎁', '🥳'][Math.floor(Math.random() * 7)];
+        confetti.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 20px;
+            opacity: 0;
+            z-index: 1000;
+            pointer-events: none;
+        `;
+        
+        container.appendChild(confetti);
+        
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 2 + Math.random() * 2;
+        const x = Math.cos(angle) * velocity * 100;
+        const y = Math.sin(angle) * velocity * 100;
+        
+        confetti.animate([
+            { 
+                transform: 'translate(-50%, -50%) scale(0)',
+                opacity: 0 
+            },
+            { 
+                transform: `translate(${x}px, ${y}px) scale(1)`,
+                opacity: 1 
+            },
+            { 
+                transform: `translate(${x * 1.5}px, ${y * 1.5}px) scale(0)`,
+                opacity: 0 
+            }
+        ], {
+            duration: 1000 + Math.random() * 500,
+            easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
+        }).onfinish = () => confetti.remove();
+    }
+}
+
+// Ajouter un event listener pour le bouton (au cas où il n'est pas dans le HTML)
+document.addEventListener('DOMContentLoaded', function() {
+    // Ajouter un bouton si nécessaire
+    const button = document.querySelector('button[onclick="generateNewWish()"]');
+    if (button) {
+        button.addEventListener('click', generateNewWish);
+    }
+    
+    // Initialiser le projet
+    initYearProject();
+});
+
+// Exposer les fonctions globalement
+window.generateNewWish = generateNewWish;
+window.initYearProject = initYearProject;
+
+// Démarrer automatiquement quand la page est chargée
 window.onload = initYearProject;

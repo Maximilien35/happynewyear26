@@ -1,58 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Envoyez vos vœux du Nouvel An personnalisés">
+    <title>Bonne Année 2026 | Vœux Personnalisés</title>
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&family=Montserrat&display=swap">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <title>Happy new year</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎉</text></svg>">
 </head>
 
 <body>
-    <section class="hero-section d-flex flex-column align-items-center justify-content-center text-center">
+    <!-- Effets de lumière subtils -->
+    <div class="light-effect light-effect-1"></div>
+    <div class="light-effect light-effect-2"></div>
+    
+    <section class="hero-section">
         <div class="container">
-            <div class="avatar-container mb-4 animate__animated animate__bounceIn">
-                <img src="https://ui-avatars.com/api/?name=User&background=random" id="user-avatar"
-                    class="rounded-circle shadow-lg" alt="User">
+            <!-- Avatar -->
+            <div class="avatar-container" data-aos="zoom-in" data-aos-delay="200">
+                <img src="https://ui-avatars.com/api/?name=Invite&background=4A90E2&color=fff&size=128&bold=true" 
+                     id="user-avatar" 
+                     class="rounded-circle" 
+                     alt="Avatar utilisateur">
             </div>
-
-            <h1 class="display-3 fw-bold text-white mb-3">
-                <span id="greeting-text">Bonne Année</span>, <span id="user-name" class="text-warning">Ami(e)</span> ! ✨
+            
+            <!-- Titre principal -->
+            <h1 class="display-3 fw-bold mb-4" data-aos="fade-up" data-aos-delay="300">
+                <span id="greeting-text">Bonne Année</span>, 
+                <span id="user-name" class="text-warning">Ami(e)</span> !
             </h1>
-
-            <div class="cardi">
-                    <p class="lead text-white-50 fs-4 mb-5" id="dynamic-message">
-                        Chargement de vos vœux personnalisés...
-                    </p>
-               
-
+            
+            <!-- Carte glass avec message -->
+            <div class="cardi" data-aos="fade-up" data-aos-delay="400">
+                <p class="message-text" id="dynamic-message">
+                    Chargement de vos vœux personnalisés...
+                </p>
             </div>
-        </div>
-
-        <button class="btn btn-outline-light btn-lg px-5 rounded-pill shadow" onclick="generateNewWish()">
-            Recevoir un autre vœu
-        </button>
+            
+            <!-- Bouton principal -->
+            <button class="btn" onclick="generateNewWish()" data-aos="fade-up" data-aos-delay="500">
+                <i class="bi bi-arrow-clockwise me-2"></i>
+                Recevoir un autre vœu
+            </button>
+            
+            <!-- Bouton de partage optionnel -->
+            <div class="mt-4" data-aos="fade-up" data-aos-delay="600">
+                <button class="btn btn-share" onclick="shareWish()">
+                    <i class="bi bi-share me-2"></i>
+                    Partager mes vœux
+                </button>
+            </div>
         </div>
     </section>
-    <!-- <script src="js/bootstrap.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Footer optionnel -->
+    <footer class="text-center py-3">
+        <small class="text-secondary">
+            Créé avec ❤️ pour vous souhaiter une merveilleuse année 2026
+        </small>
+    </footer>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="index.js"></script>
+    
     <script>
-        function comingSoon() {
-            alert("🚀 Disponible bientôt !");
+        // Initialiser AOS avec des paramètres épurés
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50,
+                easing: 'ease-out-quart'
+            });
+            
+            // Ajouter un effet de chargement subtil
+            document.body.classList.add('loaded');
+        });
+        
+        // Fonction de partage
+        function shareWish() {
+            const name = document.getElementById('user-name').textContent;
+            const currentUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${currentUrl}?name=${encodeURIComponent(name)}`;
+            const shareText = `Découvre mes vœux du Nouvel An personnalisés pour toi ! 🎉 ${shareUrl}`;
+            
+            if (navigator.share) {
+                // Utiliser l'API Web Share si disponible
+                navigator.share({
+                    title: 'Mes vœux pour toi en 2026',
+                    text: `Découvre mes vœux du Nouvel An personnalisés pour toi ! 🎉`,
+                    url: shareUrl
+                });
+            } else if (navigator.clipboard) {
+                // Copier dans le presse-papier
+                navigator.clipboard.writeText(shareText)
+                    .then(() => {
+                        alert('Lien copié ! Partage-le avec tes amis 🎊');
+                    })
+                    .catch(err => {
+                        console.error('Erreur de copie :', err);
+                        prompt('Copie ce lien pour partager :', shareText);
+                    });
+            } else {
+                // Fallback
+                prompt('Copie ce lien pour partager :', shareText);
+            }
         }
-    </script>
-    <script>
-        AOS.init({
-            duration: 1500,
-            once: true
+        
+        // Gestion du clavier (Espace pour changer de vœu)
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space' || event.code === 'Enter') {
+                event.preventDefault();
+                generateNewWish();
+            }
         });
     </script>
 </body>
